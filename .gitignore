@@ -1,0 +1,23 @@
+# --- Frontend (React/Vite) ---
+node_modules/
+dist/
+dist-ssr/
+*.local
+.eslintcache
+
+# --- Backend (Go/SQLite) ---
+# Ignore the actual database file so everyone starts fresh
+*.db
+*.db-journal
+# Ignore the compiled binary (the .exe)
+backend/finance-tracker.exe
+backend/finance-tracker
+# Dependency folder (if you use 'go mod vendor')
+vendor/
+
+# --- General ---
+.DS_Store
+.env
+.env*.local
+.vscode/
+.idea/
