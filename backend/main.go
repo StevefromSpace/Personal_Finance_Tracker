@@ -20,6 +20,7 @@ func initDatabase() {
 	var err error
 	DB, err = gorm.Open(sqlite.Open("tracker.db"), &gorm.Config{})
 	if err != nil {
+		fmt.Println("Error detail:", err) 
 		panic("Failed to connect to database")
 	}
 	DB.AutoMigrate(&FinanceEntry{})
