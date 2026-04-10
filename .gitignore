@@ -1,23 +1,34 @@
-# --- Frontend (React/Vite) ---
-node_modules/
-dist/
-dist-ssr/
-*.local
-.eslintcache
-
-# --- Backend (Go/SQLite) ---
-# Ignore the actual database file so everyone starts fresh
+# --- SQLite & Database (Privacy) ---
+# Prevents your personal spending data from being uploaded
 *.db
 *.db-journal
-# Ignore the compiled binary (the .exe)
-backend/finance-tracker.exe
-backend/finance-tracker
-# Dependency folder (if you use 'go mod vendor')
-vendor/
+*.db-wal
+*.db-shm
 
-# --- General ---
-.DS_Store
-.env
-.env*.local
+# --- Go Backend ---
+# Ignore compiled binaries
+backend/finance-tracker
+backend/*.exe
+# Ignore the environment file (if you create one)
+backend/.env
+
+# --- Frontend (React/Vite) ---
+# Ignore dependencies and build output
+**/node_modules/
+**/dist/
+**/dist-ssr/
+frontend/.env
+frontend/.env.local
+
+# --- Logs ---
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Editor & OS ---
 .vscode/
 .idea/
+.DS_Store
+Thumbs.db
