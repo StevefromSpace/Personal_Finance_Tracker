@@ -1,58 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  /* Smooth light/dark transitions */
-  color-scheme: light dark;
-  background-color: #f8fafc;
-  
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Inter', -apple-system, sans-serif;
+  background-color: #f1f5f9; /* Light slate background */
+  color: #0f172a;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: initial;
-  min-width: 320px;
-  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Fixing the "PPT" box:
-  We remove the border-inline and fixed width that was 
-  centering your content into a tiny column.
-*/
-#root {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  text-align: left; /* Tables look better left-aligned */
-}
-
-/* Custom scrollbar for that premium dashboard feel */
+/* Custom scrollbar for the dark vibe */
 ::-webkit-scrollbar {
   width: 8px;
 }
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
 ::-webkit-scrollbar-thumb {
-  background: #e2e8f0;
+  background: #1e293b;
   border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #cbd5e1;
-}
-
-/* Smooth transitions for all hover effects */
-* {
-  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
