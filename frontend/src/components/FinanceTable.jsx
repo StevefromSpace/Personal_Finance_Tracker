@@ -1,47 +1,50 @@
 import React from 'react';
+import { Edit3 } from 'lucide-react';
 
-const FinanceTable = ({ title, data, type, accent }) => {
+const FinanceTable = ({ title, data, type, color, onEdit }) => {
   const filtered = data.filter(item => item.type === type);
 
   return (
-    <div className="bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.01)] border border-slate-100 overflow-hidden">
-      <div className="flex justify-between items-center p-8 border-b border-slate-50">
-        <h3 className="font-black text-slate-800 flex items-center gap-3 tracking-tight">
-          <div className="w-2.5 h-8 rounded-full" style={{ backgroundColor: accent }}></div>
-          {title.toUpperCase()}
+    <div className="bg-white rounded-[3rem] shadow-xl border border-slate-100 overflow-hidden">
+      <div className="p-10 pb-6">
+        <h3 className="font-black text-slate-900 uppercase tracking-tighter text-3xl italic">
+          {title}
         </h3>
-        <span className="text-[10px] bg-slate-50 text-slate-400 px-3 py-1.5 rounded-full font-black uppercase border border-slate-100">
-          {filtered.length} Active Rows
-        </span>
       </div>
       
-      <div className="overflow-x-auto">
+      <div className="px-10">
         <table className="w-full text-left">
           <thead>
-            <tr className="text-slate-400 text-[11px] uppercase tracking-[0.2em] font-black border-b border-slate-50">
-              <th className="px-10 py-6">Category Name</th>
-              <th className="px-10 py-6">Target Budget</th>
-              <th className="px-10 py-6">Actual Spend</th>
-              <th className="px-10 py-6 text-right">Net Variance</th>
+            <tr className="text-slate-300 text-[10px] uppercase tracking-[0.2em] font-black border-b border-slate-50">
+              <th className="py-6 w-1/2">Transaction</th>
+              <th className="py-6">Value</th>
+              <th className="py-6 text-right">Action</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-50">
-            {filtered.map((item) => {
-              const diff = item.type === 'income' ? item.actual - item.goal : item.goal - item.actual;
-              return (
-                <tr key={item.ID} className="group hover:bg-slate-50/50 transition-all">
-                  <td className="px-10 py-5 font-bold text-slate-700">{item.category}</td>
-                  <td className="px-10 py-5 text-slate-400 font-medium">₹{item.goal.toLocaleString()}</td>
-                  <td className="px-10 py-5 text-slate-400 font-medium">₹{item.actual.toLocaleString()}</td>
-                  <td className={`px-10 py-5 text-right font-black ${diff >= 0 ? 'text-green-500' : 'text-red-400'}`}>
-                    {diff >= 0 ? '+' : ''}₹{Math.abs(diff).toLocaleString()}
-                  </td>
-                </tr>
-              );
-            })}
+            {filtered.map((item) => (
+              <tr key={item.ID} className="group hover:bg-slate-50/50 transition-all">
+                <td className="py-8 font-black text-slate-800 text-2xl tracking-tighter">
+                  {item.category}
+                </td>
+                <td className={`py-8 font-black text-2xl tracking-tighter ${color}`}>
+                  ₹{item.actual.toLocaleString()}
+                </td>
+                <td className="py-8 text-right">
+                  <button 
+                    onClick={() => onEdit(item)}
+                    className="p-3 bg-slate-50 text-slate-300 hover:text-slate-900 hover:bg-white rounded-xl transition-all border border-transparent hover:border-slate-100 shadow-sm"
+                  >
+                    <Edit3 size={20} />
+                  </button>
+                </td>
+              </tr>
+            ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan="4" className="px-10 py-20 text-center text-slate-300 font-medium italic">No data points available yet. Click "Add Entry" to start.</td>
+                <td colSpan="3" className="py-20 text-center text-slate-200 font-bold italic uppercase tracking-widest text-xs">
+                  Awaiting Data Streams...
+                </td>
               </tr>
             )}
           </tbody>
