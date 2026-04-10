@@ -63,5 +63,28 @@ func main() {
 		return c.Status(201).JSON(entry)
 	})
 
+	app.Put("/api/entries/:id", func(c *fiber.Ctx) error {
+    id := c.Params("id")
+    var entry FinanceEntry
+    if err := DB.First(&entry, id).Error; err != nil {
+        return c.Status(404).JSON(fiber.Map{"error": "Entry not found"})
+    }
+    if err := c.BodyParser(&entry); err != nil {
+        return c.Status(400).JSON(fiber.Map{"error": "Cannot parse JSON"})
+    }
+    DB.Save(&entry)
+    return c.JSON(entry)
+})
+
+	app.Delete("/api/entries/:id", func(c *fiber.Ctx) error {
+    id := c.Params("id")
+    var entry FinanceEntry
+    if err := DB.First(&entry, id).Error; err != nil {
+        return c.Status(404).JSON(fiber.Map{"error": "Entry not found"})
+    }
+    DB.Delete(&entry)
+    return c.JSON(fiber.Map{"message": "Entry deleted"})
+})
+
 	app.Listen(":8080")
 }
