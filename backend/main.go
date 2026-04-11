@@ -46,13 +46,14 @@ func seedData() {
 
 func main() {
 	initDatabase()
-	seedData()
+	seedData() 
+
 	app := fiber.New()
 	app.Use(cors.New())
 
 	app.Get("/api/entries", func(c *fiber.Ctx) error {
 		var entries []FinanceEntry
-		DB.Find(&entries)
+		DB.Order("created_at desc").Find(&entries)
 		return c.JSON(entries)
 	})
 
@@ -66,27 +67,27 @@ func main() {
 	})
 
 	app.Put("/api/entries/:id", func(c *fiber.Ctx) error {
-    id := c.Params("id")
-    var entry FinanceEntry
-    if err := DB.First(&entry, id).Error; err != nil {
-        return c.Status(404).JSON(fiber.Map{"error": "Entry not found"})
-    }
-    if err := c.BodyParser(&entry); err != nil {
-        return c.Status(400).JSON(fiber.Map{"error": "Cannot parse JSON"})
-    }
-    DB.Save(&entry)
-    return c.JSON(entry)
-})
+		id := c.Params("id")
+		var entry FinanceEntry
+		if err := DB.First(&entry, id).Error; err != nil {
+			return c.Status(404).JSON(fiber.Map{"error": "Entry not found"})
+		}
+		if err := c.BodyParser(&entry); err != nil {
+			return c.Status(400).JSON(fiber.Map{"error": "Cannot parse JSON"})
+		}
+		DB.Save(&entry)
+		return c.JSON(entry)
+	})
 
 	app.Delete("/api/entries/:id", func(c *fiber.Ctx) error {
-    id := c.Params("id")
-    var entry FinanceEntry
-    if err := DB.First(&entry, id).Error; err != nil {
-        return c.Status(404).JSON(fiber.Map{"error": "Entry not found"})
-    }
-    DB.Delete(&entry)
-    return c.JSON(fiber.Map{"message": "Entry deleted"})
-})
+		id := c.Params("id")
+		var entry FinanceEntry
+		if err := DB.First(&entry, id).Error; err != nil {
+			return c.Status(404).JSON(fiber.Map{"error": "Entry not found"})
+		}
+		DB.Unscoped().Delete(&entry)
+		return c.JSON(fiber.Map{"status": "success", "message": "Entry purged"})
+	})
 
-	app.Listen(":8080")
+	log.Fatal(app.Listen(":8080"))
 }
